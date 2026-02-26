@@ -1,12 +1,25 @@
+import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 
 function Navbar({ theme, onToggleTheme }) {
+  const navbarCollapseRef = useRef(null);
+
   const navLinkClass = ({ isActive }) =>
     `nav-link${isActive ? ' active fw-semibold' : ''}`;
 
   const navbarThemeClass = theme === 'dark'
     ? 'navbar-dark bg-dark'
     : 'navbar-light bg-light';
+
+  const handleNavLinkClick = () => {
+    // Close the navbar collapse when a link is clicked
+    if (navbarCollapseRef.current) {
+      const bsCollapse = new window.bootstrap.Collapse(navbarCollapseRef.current, {
+        toggle: false,
+      });
+      bsCollapse.hide();
+    }
+  };
 
   return (
     <nav className={`navbar navbar-expand-lg border-bottom ${navbarThemeClass}`}>
@@ -25,25 +38,25 @@ function Navbar({ theme, onToggleTheme }) {
         >
           <span className="navbar-toggler-icon" />
         </button>
-        <div className="collapse navbar-collapse" id="mainNavbar">
+        <div className="collapse navbar-collapse" id="mainNavbar" ref={navbarCollapseRef}>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink to="/" end className={navLinkClass}>
+              <NavLink to="/" end className={navLinkClass} onClick={handleNavLinkClick}>
                 Home
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/about" className={navLinkClass}>
+              <NavLink to="/about" className={navLinkClass} onClick={handleNavLinkClick}>
                 About
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/contact" className={navLinkClass}>
+              <NavLink to="/contact" className={navLinkClass} onClick={handleNavLinkClick}>
                 Contact
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/products" className={navLinkClass}>
+              <NavLink to="/products" className={navLinkClass} onClick={handleNavLinkClick}>
                 Products
               </NavLink>
             </li>
