@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: live-api-app
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s build -l 3000
+    envVars:
+      - key: REACT_APP_OPENWEATHER_API_KEY
+        scope: build
+        value: ${REACT_APP_OPENWEATHER_API_KEY}
+      - key: REACT_APP_MEALDB_API_KEY
+        scope: build
+        value: ${REACT_APP_MEALDB_API_KEY}
